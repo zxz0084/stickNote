@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">stickNote</string>
+    <string name="action_settings">关于</string>
 </resources>

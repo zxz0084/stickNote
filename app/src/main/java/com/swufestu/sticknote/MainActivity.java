@@ -4,115 +4,101 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.swufestu.sticknote.db.Note;
+import com.swufestu.sticknote.db.NoteAPP;
+import com.swufestu.sticknote.db.NoteDao;
+import com.swufestu.sticknote.db.NoteDaoMpi;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    private CheckBox cbDelay;
-    private FloatingActionButton fab01Add;
-    private boolean isAdd = false;
-    private RelativeLayout rlAddBill;
-    private int[] llId = new int[]{R.id.ll01,R.id.ll02,R.id.ll03,R.id.ll04,R.id.ll05,R.id.ll06};
-    private LinearLayout[] ll = new LinearLayout[llId.length];
-    private int[] fabId = new int[]{R.id.miniFab01,R.id.miniFab02,R.id.miniFab03,R.id.miniFab04,R.id.miniFab05,R.id.miniFab06};
-    private FloatingActionButton[] fab = new FloatingActionButton[fabId.length];
-    private AnimatorSet addBillTranslate1;
-    private AnimatorSet addBillTranslate2;
-    private AnimatorSet addBillTranslate3;
-    private AnimatorSet addBillTranslate4;
-    private AnimatorSet addBillTranslate5;
-    private AnimatorSet addBillTranslate6;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+public class MainActivity extends AppCompatActivity implements View.OnTouchListener {
+    public NoteDao noteDao = null;
+    Intent intent=null;
+    private final static  String TAG="Main:";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        initView();
-        setDefaultValues();
-        bindEvents();
-
-    }
-    private void initView(){
-        fab01Add = (FloatingActionButton)findViewById(R.id.fab01Add);
-        rlAddBill = (RelativeLayout)findViewById(R.id.rlAddBill);
-        for (int i = 0; i < llId.length;i++){
-            ll[i] = (LinearLayout)findViewById(llId[i]);
-        }
-        for (int i = 0;i < fabId.length; i++){
-            fab[i] = (FloatingActionButton)findViewById(fabId[i]);
-        }
-    }
-    private void setDefaultValues(){
-        addBillTranslate1 = (AnimatorSet) AnimatorInflater.loadAnimator(this,R.animator.anim);
-        addBillTranslate2 = (AnimatorSet) AnimatorInflater.loadAnimator(this,R.animator.anim);
-        addBillTranslate3 = (AnimatorSet) AnimatorInflater.loadAnimator(this,R.animator.anim);
-        addBillTranslate4 = (AnimatorSet) AnimatorInflater.loadAnimator(this,R.animator.anim);
-        addBillTranslate5 = (AnimatorSet) AnimatorInflater.loadAnimator(this,R.animator.anim);
-        addBillTranslate6 = (AnimatorSet) AnimatorInflater.loadAnimator(this,R.animator.anim);
+        noteDao = new NoteDaoMpi(this);
+        Log.i(TAG,""+noteDao);
     }
 
-    private void bindEvents(){
-        fab01Add.setOnClickListener(this);
-        for (int i = 0;i < fabId.length; i++){
-            fab[i].setOnClickListener(this);
-        }
-    }
     @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.fab01Add:
-                fab01Add.setImageResource(isAdd ? R.drawable.ic_add_white_24dp:R.drawable.ic_close_white_24dp);
-                isAdd = !isAdd;
-                rlAddBill.setVisibility(isAdd ? View.VISIBLE : View.GONE);
-                if (isAdd) {
-                    addBillTranslate1.setTarget(ll[0]);
-                    addBillTranslate1.start();
-                    addBillTranslate2.setTarget(ll[1]);
-                    addBillTranslate2.setStartDelay(cbDelay.isChecked() ? 150 : 0);
-                    addBillTranslate2.start();
-                    addBillTranslate3.setTarget(ll[2]);
-                    addBillTranslate3.setStartDelay(cbDelay.isChecked() ? 200 : 0);
-                    addBillTranslate3.start();
-                    addBillTranslate4.setTarget(ll[3]);
-                    addBillTranslate4.setStartDelay(cbDelay.isChecked() ? 250 : 0);
-                    addBillTranslate4.start();
-                    addBillTranslate5.setTarget(ll[4]);
-                    addBillTranslate5.setStartDelay(cbDelay.isChecked() ? 300 : 0);
-                    addBillTranslate5.start();
-                    addBillTranslate6.setTarget(ll[5]);
-                    addBillTranslate6.setStartDelay(cbDelay.isChecked() ? 350 : 0);
-                    addBillTranslate6.start();
-                }
-                break;
-            case R.id.miniFab01:
-                hideFABMenu();
-                break;
-            case R.id.miniFab02:
-                hideFABMenu();
-                break;
-            case R.id.miniFab03:
-                hideFABMenu();
-                break;
-            case R.id.miniFab04:
-                hideFABMenu();
-                break;
-            case R.id.miniFab05:
-                hideFABMenu();
-                break;
-            case R.id.miniFab06:
-                hideFABMenu();
-                break;
-            default:
-                break;
+    public boolean onTouch(View view, MotionEvent motionEvent) {
+        if(motionEvent.getAction()==MotionEvent.ACTION_DOWN){
+            int tag=Integer.parseInt(view.getTag().toString());
+            Intent intent=null;
+            Log.i(TAG,""+tag);
+            switch (tag){
+                case 1:
+                    Log.i(TAG,""+1);
+                    break;
+                case 2:
+                    Log.i(TAG,""+2);
+                    intent=new Intent(this,AddActivity.class);
+                    NoteAPP.NOTE=new Note();
+                    //QueryActivity.queryActivity.finish();
+                    startActivity(intent);
+                    break;
+                case 3:
+                    Log.i(TAG,""+3);
+                    intent = new Intent(this,QueryActivity.class);
+                    if(NoteAPP.NOTE.getId() > 0){
+                        noteDao.delete(String.valueOf(NoteAPP.NOTE.getId()));
+                    }
+                    NoteAPP.NOTE.setId(0);
+                    NoteAPP.NOTE.setCreateDate("");
+                    NoteAPP.NOTE.setMark("");
+                    NoteAPP.NOTE.setNote("");
+                    NoteAPP.NOTE.setTitle("");
+                    startActivity(intent);
+                    //AddActivity.addActivity.finish();
+                    break;
+                case 4:
+                    Log.i(TAG,""+4);
+                    EditText noteText = findViewById(R.id.noteEdit);
+                    EditText titleText = findViewById(R.id.titleEdit);
+                    intent = new Intent(this,QueryActivity.class);
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
+                    //公共note
+                    NoteAPP.NOTE.setCreateDate(sdf.format(new Date()));
+                    NoteAPP.NOTE.setNote(noteText.getText().toString().trim());
+                    NoteAPP.NOTE.setTitle(titleText.getText().toString().trim());
+                    if (NoteAPP.NOTE.getNote()==null || NoteAPP.NOTE.getNote().equals("")) {
+                        Toast.makeText(this,"亲，还没有输入内容哦！",Toast.LENGTH_SHORT).show();
+                        return false;
+                    }
+                    if(NoteAPP.NOTE.getTitle().equals("")){
+                        NoteAPP.NOTE.setTitle("新建的笔记");
+                    }
+                    if(NoteAPP.NOTE.getId() == 0){
+                        noteDao.insert(NoteAPP.NOTE);
+                    }else{
+                        noteDao.update(NoteAPP.NOTE);
+                    }
+                    NoteAPP.NOTE = null;
+                    Toast.makeText(this,"笔记保存成功",Toast.LENGTH_SHORT).show();
+                    startActivity(intent);
+                    AddActivity.addActivity.finish();
+                    break;
+            }
+            view.setBackgroundResource(R.color.buttonDown);
+        }else if(motionEvent.getAction() == MotionEvent.ACTION_UP){
+            view.setBackgroundResource(R.color.buttonUp);
         }
-    }
-    private void hideFABMenu(){
-        rlAddBill.setVisibility(View.GONE);
-        fab01Add.setImageResource(R.drawable.ic_add_white_24dp);
-        isAdd = false;
+        return false;
     }
 }
