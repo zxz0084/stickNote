@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
     private void initView(){
-        cbDelay  = (CheckBox)findViewById(R.id.cbDelay);
         fab01Add = (FloatingActionButton)findViewById(R.id.fab01Add);
         rlAddBill = (RelativeLayout)findViewById(R.id.rlAddBill);
         for (int i = 0; i < llId.length;i++){
