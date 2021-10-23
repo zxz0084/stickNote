@@ -19,5 +19,6 @@
     <color name="bgblue">#B0C6DE</color>
     <color name="bggreen">#C0DC8F</color>
     <color name="bgred">#E2B983</color>
-    <color name="bgyellow">#F1E086</color>
+    <color name="bgyellow">#fbfbd7</color>
+    <color name="bb">#2caaa5</color>
 </resources>

@@ -9,7 +9,7 @@
     android:paddingTop="4dp"
     android:paddingLeft="4dp"
     android:padding="4dp"
-    android:background="@color/hint"
+    android:background="@color/white"
      >
 
             <TextView

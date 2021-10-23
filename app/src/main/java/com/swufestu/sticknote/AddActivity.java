@@ -20,7 +20,7 @@ public class AddActivity extends MainActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add);
+        setContentView(R.layout.add);
         okButton = findViewById(R.id.okButton);
         backButton = findViewById(R.id.backButton);
         backButton.setOnTouchListener(this);

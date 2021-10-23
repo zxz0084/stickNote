@@ -49,7 +49,7 @@ public class QueryActivity extends MainActivity implements AdapterView.OnItemCli
     // list总数提示组件
     private TextView listCount = null;
     // list总数提示
-    private StringBuilder showCount = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,11 +100,6 @@ public class QueryActivity extends MainActivity implements AdapterView.OnItemCli
         // {"createDate","id","title"},new int[]{R.id.createDate, R.id.id,
         // R.id.title });
         listView.setAdapter(adapter);
-        showCount = new StringBuilder();
-        showCount.append("已经写过");
-        showCount.append(NoteAPP.NOTECOUNT);
-        showCount.append("条笔记");
-        listCount.setText(showCount);
     }
 
     private void toDeleteCheck() {

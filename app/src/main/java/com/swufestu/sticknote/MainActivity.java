@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     public NoteDao noteDao = null;
     Intent intent=null;
     private final static  String TAG="Main:";
+    private StringBuilder showCount = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,7 +91,11 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                         noteDao.update(NoteAPP.NOTE);
                     }
                     NoteAPP.NOTE = null;
-                    Toast.makeText(this,"笔记保存成功",Toast.LENGTH_SHORT).show();
+                    showCount = new StringBuilder();
+                    showCount.append("已经写过");
+                    showCount.append(NoteAPP.NOTECOUNT+1);
+                    showCount.append("条笔记");
+                    Toast.makeText(this,showCount,Toast.LENGTH_SHORT).show();
                     startActivity(intent);
                     AddActivity.addActivity.finish();
                     break;
