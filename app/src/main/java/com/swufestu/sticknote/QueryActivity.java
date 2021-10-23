@@ -101,7 +101,7 @@ public class QueryActivity extends MainActivity implements AdapterView.OnItemCli
         // R.id.title });
         listView.setAdapter(adapter);
         showCount = new StringBuilder();
-        showCount.append("亲，已经写过");
+        showCount.append("已经写过");
         showCount.append(NoteAPP.NOTECOUNT);
         showCount.append("条笔记");
         listCount.setText(showCount);

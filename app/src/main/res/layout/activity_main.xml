@@ -11,51 +11,27 @@
     android:layout_height="match_parent"
     android:background="@color/bg"
     android:orientation="vertical">
+
     <FrameLayout
         android:id="@+id/contentList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/border">
 
-        <ImageButton
-            android:id="@+id/delete"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/listCount"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
-            android:layout_margin="5dp"
-            android:minHeight="48dp"
-            android:padding="5dp"
-            android:src="@drawable/delete"
-            android:tag="1"
-            tools:ignore="SpeakableTextPresentCheck" />
-
-        <ImageButton
-            android:id="@+id/backButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:layout_margin="5dp"
-
-            android:padding="5dp"
-            android:src="@drawable/back"
-            android:visibility="gone" />
-
-        <ImageButton
-            android:id="@+id/deleteok"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_margin="5dp"
-            android:background="@color/buttonUp"
-            android:padding="5dp"
-            android:src="@drawable/right"
-            android:visibility="gone" />
+            android:background="@drawable/border"
+            android:gravity="center" />
     </FrameLayout>
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         >
+
 
         <ListView
             android:id="@+id/listView"
@@ -69,26 +45,51 @@
             android:layout_weight="1" >
         </ListView>
 
-        <TextView
-            android:id="@+id/listCount"
-            android:layout_width="40dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_margin="5dp"
-            android:background="@drawable/border"
-            android:gravity="center"
-            android:padding="5dp" />
     </LinearLayout>
 </LinearLayout>
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            app:srcCompat="@drawable/ic_close_white_24dp"
+            android:tag="2"/>
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/addButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="16dp"
+            android:layout_marginBottom="16dp"
+            app:srcCompat="@drawable/ic_add_white_24dp"
+            android:tag="2"/>
+
+
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom|center">
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/addButton"
+        android:id="@+id/backButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_marginEnd="16dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginBottom="16dp"
-        app:srcCompat="@drawable/ic_add_white_24dp"
-        android:tag="2"/>
+        android:visibility="gone"
+        app:srcCompat="@drawable/back"
+        />
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/deleteok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginBottom="16dp"
+        android:visibility="gone"
+        app:srcCompat="@drawable/right"
+        />
+</LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
