@@ -9,6 +9,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -25,40 +26,39 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.swufestu.sticknote.db.Note;
 import com.swufestu.sticknote.db.NoteAPP;
+import com.swufestu.sticknote.db.NoteDaoMpi;
 
 import java.util.ArrayList;
 
 public class QueryActivity extends MainActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener{
-    private ImageButton delete = null;
-    // 添加
-    private ImageButton add = null;
-    //删除成功按钮
-    private ImageButton deleteOk = null;
-    //返回按钮
-    private ImageButton back = null;
-    // listview
+    //删除按钮、添加按钮、删除成功按钮、返回按钮
+    //继承Main的目的是为了保证使用公共note，简化通过intent传参和获取参数的问题
+    private static final String TAG="Query";
+    private FloatingActionButton delete = null;
+    private FloatingActionButton add = null;
+    private FloatingActionButton deleteOk = null;
+    private FloatingActionButton back = null;
     //private CardView listView=null;
     private ListView listView = null;
     // private SimpleAdapter adapter = null;
     public static Activity queryActivity = null;
-    // 自定义适配器继承BaseAdapter
     private NormalAdapter adapter = null;
-    // 自定义编辑适配器
     private DeleteAdapter deleteAdapter = null;
-    // list总数提示组件
     private TextView listCount = null;
-    // list总数提示
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        noteDao = new NoteDaoMpi(this);
         //RecyclerView byId = (RecyclerView)findViewById(R.id.Rece);
         //byId.setHasFixedSize(true);
         //byId.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
         listView=findViewById(R.id.listView);
-        listView.setOnItemClickListener(this);
+        listView.setOnItemClickListener(this);//OnItemClick
         back=findViewById(R.id.backButton);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,6 +74,7 @@ public class QueryActivity extends MainActivity implements AdapterView.OnItemCli
                 return false;
             }
         });
+
         deleteOk=findViewById(R.id.deleteok);
         deleteOk.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,34 +82,30 @@ public class QueryActivity extends MainActivity implements AdapterView.OnItemCli
                 deleteAdapter.deleteItems();
                 deleteOk.setVisibility(View.GONE);
                 back.setVisibility(View.GONE);
-                //添加和删除按钮显示
                 delete.setVisibility(View.VISIBLE);
                 add.setVisibility(View.VISIBLE);
                 searchNormal();
             }
         });
+
         add = findViewById(R.id.addButton);
         add.setOnTouchListener(this);
-        listCount = (TextView) findViewById(R.id.listCount);
+        listCount = findViewById(R.id.listCount);
         queryActivity = this;
+
     }
+
+
     private void searchNormal() {
         noteDao.queryAll();
         adapter = new NormalAdapter();
-        // adapter = new SimpleAdapter(this,
-        // NoteApp.LISTADAPTER,R.layout.listview, new String []
-        // {"createDate","id","title"},new int[]{R.id.createDate, R.id.id,
-        // R.id.title });
         listView.setAdapter(adapter);
     }
 
     private void toDeleteCheck() {
         searchDelete();
-        //返回号显示
         back.setVisibility(View.VISIBLE);
-        //对号显示
         deleteOk.setVisibility(View.VISIBLE);
-        //添加和删除按钮隐藏
         delete.setVisibility(View.GONE);
         add.setVisibility(View.GONE);
     }
@@ -161,9 +158,6 @@ public class QueryActivity extends MainActivity implements AdapterView.OnItemCli
         if(frame.getChildCount() == 3){
             NoteAPP.NOTE = noteDao.query("id=?", new String[]{noteID});
             Intent intent = new Intent(this,AddActivity.class);
-//			Bundle bundle = new Bundle();
-//			bundle.putSerializable("note", note);
-//			intent.putExtras(bundle);
             this.finish();
             startActivity(intent);
         }else if(frame.getChildCount() == 4){
@@ -205,9 +199,7 @@ public class QueryActivity extends MainActivity implements AdapterView.OnItemCli
         TextView id = null;
         TextView title = null;
         TextView createDate = null;
-        // 头部
         TextView listHead = null;
-        //checkbox
         CheckBox checkNote = null;
     }
 
@@ -255,7 +247,7 @@ public class QueryActivity extends MainActivity implements AdapterView.OnItemCli
         public View getView(int position, View convertView, ViewGroup parent) {
             // TODO Auto-generated method stub
             ListHolder viewHolder = null;
-            // 分组模式
+            // 分组显示
             if (inflater == null) {
                 inflater = (LayoutInflater) queryActivity
                         .getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -268,18 +260,13 @@ public class QueryActivity extends MainActivity implements AdapterView.OnItemCli
                     .get("createDate"));
             if (!time.equals(create)) {
                 convertView = inflater.inflate(R.layout.deletelistview, null);
-                viewHolder.id = (TextView) convertView
-                        .findViewById(R.id.id);
-                viewHolder.title = (TextView) convertView
-                        .findViewById(R.id.title);
-                viewHolder.createDate = (TextView) convertView
-                        .findViewById(R.id.createDate);
-                viewHolder.checkNote = (CheckBox) convertView
-                        .findViewById(R.id.checkNote);
+                viewHolder.id = convertView.findViewById(R.id.id);
+                viewHolder.title = convertView.findViewById(R.id.title);
+                viewHolder.createDate = convertView.findViewById(R.id.createDate);
+                viewHolder.checkNote = convertView.findViewById(R.id.checkNote);
             } else {
                 convertView = inflater.inflate(R.layout.showhint, null);
-                viewHolder.listHead = (TextView) convertView
-                        .findViewById(R.id.listHead);
+                viewHolder.listHead =  convertView.findViewById(R.id.listHead);
             }
             if (viewHolder.id != null) {
                 viewHolder.id.setText(NoteAPP.LISTADAPTER.get(position).get(

@@ -5,15 +5,24 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.swufestu.sticknote.db.NoteAPP;
+import com.swufestu.sticknote.db.NoteDaoMpi;
 
-public class AddActivity extends MainActivity {
-    private ImageButton okButton = null;
-    private ImageButton backButton = null;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+public class AddActivity extends MainActivity{
+    private FloatingActionButton okButton = null;
+    private FloatingActionButton backButton = null;
     private EditText noteText = null;
     private EditText titleText = null;
     public static Activity addActivity = null;

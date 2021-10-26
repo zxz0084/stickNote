@@ -11,22 +11,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 public class EditDefine extends androidx.appcompat.widget.AppCompatEditText {
+    //借鉴代码，设置方针的标签样式
     private Paint paint;
-
     private float margin;
-
     private String color;
-
-    //上下左右的padding
     private int top;
-    //视图高度
     private int height;
-    //总行数
     private int lineCount;
-    //行高
     private int lineHeight;
     private int baseLine;
-    //输入的行数
     private int editCount;
     private Rect rect;
 

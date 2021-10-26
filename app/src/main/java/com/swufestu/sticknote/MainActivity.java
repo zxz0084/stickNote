@@ -2,30 +2,24 @@ package com.swufestu.sticknote;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.animation.AnimatorInflater;
-import android.animation.AnimatorSet;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.swufestu.sticknote.db.Note;
 import com.swufestu.sticknote.db.NoteAPP;
-import com.swufestu.sticknote.db.NoteDao;
 import com.swufestu.sticknote.db.NoteDaoMpi;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements View.OnTouchListener {
-    public NoteDao noteDao = null;
+    public NoteDaoMpi noteDao = null;
+    //保证noteDao是所有文件的全局变量，简化传参操作
     Intent intent=null;
     private final static  String TAG="Main:";
     private StringBuilder showCount = null;
@@ -51,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                     Log.i(TAG,""+2);
                     intent=new Intent(this,AddActivity.class);
                     NoteAPP.NOTE=new Note();
-                    //QueryActivity.queryActivity.finish();
+                    QueryActivity.queryActivity.finish();
                     startActivity(intent);
                     break;
                 case 3:
@@ -66,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                     NoteAPP.NOTE.setNote("");
                     NoteAPP.NOTE.setTitle("");
                     startActivity(intent);
-                    //AddActivity.addActivity.finish();
+                    AddActivity.addActivity.finish();
                     break;
                 case 4:
                     Log.i(TAG,""+4);
@@ -74,12 +68,11 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                     EditText titleText = findViewById(R.id.titleEdit);
                     intent = new Intent(this,QueryActivity.class);
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
-                    //公共note
                     NoteAPP.NOTE.setCreateDate(sdf.format(new Date()));
                     NoteAPP.NOTE.setNote(noteText.getText().toString().trim());
                     NoteAPP.NOTE.setTitle(titleText.getText().toString().trim());
                     if (NoteAPP.NOTE.getNote()==null || NoteAPP.NOTE.getNote().equals("")) {
-                        Toast.makeText(this,"亲，还没有输入内容哦！",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this,"您还没有输入内容哦！",Toast.LENGTH_SHORT).show();
                         return false;
                     }
                     if(NoteAPP.NOTE.getTitle().equals("")){
@@ -100,9 +93,9 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                     AddActivity.addActivity.finish();
                     break;
             }
-            view.setBackgroundResource(R.color.buttonDown);
+            view.setBackgroundResource(R.color.bg);
         }else if(motionEvent.getAction() == MotionEvent.ACTION_UP){
-            view.setBackgroundResource(R.color.buttonUp);
+            view.setBackgroundResource(R.color.bg);
         }
         return false;
     }
