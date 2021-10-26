@@ -47,13 +47,12 @@ public class QueryActivity extends MainActivity implements AdapterView.OnItemCli
     public static Activity queryActivity = null;
     private NormalAdapter adapter = null;
     private DeleteAdapter deleteAdapter = null;
-    private TextView listCount = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        noteDao = new NoteDaoMpi(this);
         //RecyclerView byId = (RecyclerView)findViewById(R.id.Rece);
         //byId.setHasFixedSize(true);
         //byId.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
@@ -87,12 +86,9 @@ public class QueryActivity extends MainActivity implements AdapterView.OnItemCli
                 searchNormal();
             }
         });
-
         add = findViewById(R.id.addButton);
         add.setOnTouchListener(this);
-        listCount = findViewById(R.id.listCount);
         queryActivity = this;
-
     }
 
 

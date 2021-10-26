@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 public class EditDefine extends androidx.appcompat.widget.AppCompatEditText {
-    //借鉴代码，设置方针的标签样式
     private Paint paint;
     private float margin;
     private String color;
@@ -51,7 +50,7 @@ public class EditDefine extends androidx.appcompat.widget.AppCompatEditText {
     }
     protected void onDraw(Canvas canvas) {
         // TODO Auto-generated method stub
-//		canvas.drawColor(Color.BLACK);
+        //canvas.drawColor(Color.BLACK);
         //组件高度
         height =this.getHeight();
         //行高
