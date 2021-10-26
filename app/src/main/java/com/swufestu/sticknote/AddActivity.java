@@ -41,14 +41,12 @@ public class AddActivity extends MainActivity{
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // TODO Auto-generated method stub
         super.onActivityResult(requestCode, resultCode, data);
         this.finish();
     }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        // TODO Auto-generated method stub
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
             Intent myIntent;
             myIntent = new Intent(this, QueryActivity.class);
@@ -60,7 +58,6 @@ public class AddActivity extends MainActivity{
 
     @Override
     protected void onResume() {
-        // TODO Auto-generated method stub
         super.onResume();
         if (NoteAPP.NOTE != null) {
             noteText.setText(NoteAPP.NOTE.getNote());

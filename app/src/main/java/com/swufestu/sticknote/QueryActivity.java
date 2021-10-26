@@ -107,14 +107,12 @@ public class QueryActivity extends MainActivity implements AdapterView.OnItemCli
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // TODO Auto-generated method stub
         super.onActivityResult(requestCode, resultCode, data);
         this.finish();
     }
 
     @Override
     protected void onResume() {
-        // TODO Auto-generated method stub
         super.onResume();
         searchNormal();
     }
@@ -127,7 +125,6 @@ public class QueryActivity extends MainActivity implements AdapterView.OnItemCli
 
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-        // TODO Auto-generated method stub
         toDeleteCheck();
         return false;
     }
@@ -148,7 +145,6 @@ public class QueryActivity extends MainActivity implements AdapterView.OnItemCli
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position,
                             long id) {
-        // TODO Auto-generated method stub
         LinearLayout frame = (LinearLayout)view;
         String noteID = ((TextView)frame.getChildAt(0)).getText().toString();
         if(frame.getChildCount() == 3){
@@ -176,7 +172,6 @@ public class QueryActivity extends MainActivity implements AdapterView.OnItemCli
                 new android.content.DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        // TODO Auto-generated method stub
                         dialog.dismiss();
                         android.os.Process.killProcess(android.os.Process.myPid());
                     }
@@ -223,25 +218,21 @@ public class QueryActivity extends MainActivity implements AdapterView.OnItemCli
 
         @Override
         public int getCount() {
-            // TODO Auto-generated method stub
             return NoteAPP.LISTADAPTER.size();
         }
 
         @Override
         public Object getItem(int position) {
-            // TODO Auto-generated method stub
             return null;
         }
 
         @Override
         public long getItemId(int position) {
-            // TODO Auto-generated method stub
             return 0;
         }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            // TODO Auto-generated method stub
             ListHolder viewHolder = null;
             // 分组显示
             if (inflater == null) {
@@ -291,7 +282,6 @@ public class QueryActivity extends MainActivity implements AdapterView.OnItemCli
             @Override
             public void onCheckedChanged(CompoundButton buttonView,
                                          boolean isChecked) {
-                // TODO Auto-generated method stub
                 if(isChecked){
                     itemStatus[position] = true;
                 }else{
@@ -306,25 +296,21 @@ public class QueryActivity extends MainActivity implements AdapterView.OnItemCli
 
         @Override
         public int getCount() {
-            // TODO Auto-generated method stub
             return NoteAPP.LISTADAPTER.size();
         }
 
         @Override
         public Object getItem(int position) {
-            // TODO Auto-generated method stub
             return null;
         }
 
         @Override
         public long getItemId(int position) {
-            // TODO Auto-generated method stub
             return 0;
         }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            // TODO Auto-generated method stub
             ListHolder viewHolder = null;
             // 分组模式
             if (inflater == null) {
@@ -339,15 +325,15 @@ public class QueryActivity extends MainActivity implements AdapterView.OnItemCli
                     .get("createDate"));
             if (!time.equals(create)) {
                 convertView = inflater.inflate(R.layout.listview, null);
-                viewHolder.id = (TextView) convertView
+                viewHolder.id =  convertView
                         .findViewById(R.id.id);
-                viewHolder.title = (TextView) convertView
+                viewHolder.title =  convertView
                         .findViewById(R.id.title);
-                viewHolder.createDate = (TextView) convertView
+                viewHolder.createDate =convertView
                         .findViewById(R.id.createDate);
             } else {
                 convertView = inflater.inflate(R.layout.showhint, null);
-                viewHolder.listHead = (TextView) convertView
+                viewHolder.listHead =  convertView
                         .findViewById(R.id.listHead);
             }
             if (viewHolder.id != null) {

@@ -49,7 +49,6 @@ public class EditDefine extends androidx.appcompat.widget.AppCompatEditText {
         this.setLineSpacing(2.0f, 1.5f);
     }
     protected void onDraw(Canvas canvas) {
-        // TODO Auto-generated method stub
         //canvas.drawColor(Color.BLACK);
         //组件高度
         height =this.getHeight();
