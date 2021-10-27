@@ -62,7 +62,7 @@ public class AddActivity extends MainActivity{
                 noteDao.NOTE.setNote(noteText.getText().toString().trim());
                 noteDao.NOTE.setTitle(titleText.getText().toString().trim());
                 if (noteDao.NOTE.getNote()==null || noteDao.NOTE.getNote().equals("")) {
-                    Toast.makeText(AddActivity.this,"您还没有输入内容哦！",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddActivity.this,"您还没有输入内容！",Toast.LENGTH_SHORT).show();
                     return false;
                 }
                 if(noteDao.NOTE.getTitle().equals("")){
@@ -90,7 +90,6 @@ public class AddActivity extends MainActivity{
         titleText = findViewById(R.id.titleEdit);
         addActivity = this;
     }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -111,9 +110,7 @@ public class AddActivity extends MainActivity{
     @Override
     protected void onResume() {
         super.onResume();
-        if (noteDao.NOTE != null) {
             noteText.setText(noteDao.NOTE.getNote());
             titleText.setText(noteDao.NOTE.getTitle());
-        }
     }
 }
