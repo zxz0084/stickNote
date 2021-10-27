@@ -30,10 +30,10 @@
         <com.swufestu.sticknote.EditDefine
             android:id="@+id/noteEdit"
             android:layout_width="402dp"
-            android:layout_height="597dp"
+            android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:background="@color/bgyellow"
-            android:gravity="left|top"
+            android:gravity="top"
             android:hint="请输入内容"
             android:inputType="textMultiLine"
             android:minLines="15"

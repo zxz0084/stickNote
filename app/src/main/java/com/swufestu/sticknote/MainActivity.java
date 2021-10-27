@@ -45,7 +45,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private FloatingActionButton back = null;
     //private CardView listView=null;
     private ListView listView = null;
-    // private SimpleAdapter adapter = null;
     public static Activity queryActivity = null;
     private NormalAdapter adapter = null;
     private DeleteAdapter deleteAdapter = null;
