@@ -1,8 +1,6 @@
 package com.swufestu.sticknote;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -12,7 +10,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,18 +17,13 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.swufestu.sticknote.db.Note;
-import com.swufestu.sticknote.db.NoteAPP;
 import com.swufestu.sticknote.db.NoteDaoMpi;
-
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener{
     //删除按钮、添加按钮、删除成功按钮、返回按钮
@@ -96,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 if(motionEvent.getAction()==MotionEvent.ACTION_DOWN) {
                     Log.i(TAG, "" + 2);
                     intent = new Intent(MainActivity.this, AddActivity.class);
-                    NoteAPP.NOTE = new Note();
+                    noteDao.NOTE = new Note();
                     MainActivity.this.finish();
                     startActivity(intent);
                     view.setBackgroundResource(R.color.bg);
@@ -135,13 +127,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
         toDeleteCheck();
         return false;
@@ -168,7 +153,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         String noteID = ((TextView)frame.getChildAt(0)).getText().toString();
         Log.i(TAG,""+frame.getChildCount());
         if(frame.getChildCount() == 3){
-            NoteAPP.NOTE = noteDao.query("id=?", new String[]{noteID});
+           noteDao.NOTE = noteDao.query("id=?", new String[]{noteID});
             Intent intent = new Intent(this,AddActivity.class);
             this.finish();
             startActivity(intent);
@@ -218,13 +203,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     class DeleteAdapter extends BaseAdapter {
         LayoutInflater inflater;
-        boolean[] itemStatus = new boolean[NoteAPP.LISTADAPTER.size()];
+        boolean[] itemStatus = new boolean[noteDao.LISTADAPTER.size()];
 
         //获取所有删除项ID
         public void deleteItems(){
             for (int i = 0; i < itemStatus.length; i++) {
                 if(itemStatus[i]){
-                    noteDao.delete(NoteAPP.LISTADAPTER.get(i).get("id"));
+                    noteDao.delete(noteDao.LISTADAPTER.get(i).get("id"));
                 }
             }
         }
@@ -240,7 +225,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         @Override
         public int getCount() {
-            return NoteAPP.LISTADAPTER.size();
+            return noteDao.LISTADAPTER.size();
         }
 
         @Override
@@ -264,8 +249,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             viewHolder = new ListHolder();
             // 上一个时间点
             // 与上一个时间比较
-            String time = NoteAPP.HEAD.get(position);
-            String create = (NoteAPP.LISTADAPTER.get(position)
+            String time = noteDao.HEAD.get(position);
+            String create = (noteDao.LISTADAPTER.get(position)
                     .get("createDate"));
             if (!time.equals(create)) {
                 convertView = inflater.inflate(R.layout.deletelistview, null);
@@ -278,16 +263,16 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 viewHolder.listHead =  convertView.findViewById(R.id.listHead);
             }
             if (viewHolder.id != null) {
-                viewHolder.id.setText(NoteAPP.LISTADAPTER.get(position).get(
+                viewHolder.id.setText(noteDao.LISTADAPTER.get(position).get(
                         "id"));
-                viewHolder.title.setText(NoteAPP.LISTADAPTER.get(position).get(
+                viewHolder.title.setText(noteDao.LISTADAPTER.get(position).get(
                         "title"));
-                viewHolder.createDate.setText(NoteAPP.LISTADAPTER.get(position)
+                viewHolder.createDate.setText(noteDao.LISTADAPTER.get(position)
                         .get("createDate"));
                 viewHolder.checkNote.setOnCheckedChangeListener(new CheckChange(position));
                 viewHolder.checkNote.setChecked(itemStatus[position]);
             } else {
-                viewHolder.listHead.setText(NoteAPP.LISTADAPTER.get(position)
+                viewHolder.listHead.setText(noteDao.LISTADAPTER.get(position)
                         .get("createDate"));
             }
             return convertView;
@@ -318,7 +303,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         @Override
         public int getCount() {
-            return NoteAPP.LISTADAPTER.size();
+            return noteDao.LISTADAPTER.size();
         }
 
         @Override
@@ -336,14 +321,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             ListHolder viewHolder = null;
             // 分组模式
             if (inflater == null) {
-                inflater = (LayoutInflater) queryActivity
-                        .getSystemService(LAYOUT_INFLATER_SERVICE);
+                inflater = (LayoutInflater) MainActivity.this.getSystemService(LAYOUT_INFLATER_SERVICE);
             }
             viewHolder = new ListHolder();
             // 上一个时间点
             // 与上一个时间比较
-            String time = NoteAPP.HEAD.get(position);
-            String create = (NoteAPP.LISTADAPTER.get(position)
+            String time = noteDao.HEAD.get(position);
+            String create = (noteDao.LISTADAPTER.get(position)
                     .get("createDate"));
             if (!time.equals(create)) {
                 convertView = inflater.inflate(R.layout.listview, null);
@@ -359,14 +343,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                         .findViewById(R.id.listHead);
             }
             if (viewHolder.id != null) {
-                viewHolder.id.setText(NoteAPP.LISTADAPTER.get(position).get(
+                viewHolder.id.setText(noteDao.LISTADAPTER.get(position).get(
                         "id"));
-                viewHolder.title.setText(NoteAPP.LISTADAPTER.get(position).get(
+                viewHolder.title.setText(noteDao.LISTADAPTER.get(position).get(
                         "title"));
-                viewHolder.createDate.setText(NoteAPP.LISTADAPTER.get(position)
+                viewHolder.createDate.setText(noteDao.LISTADAPTER.get(position)
                         .get("createDate"));
             } else {
-                viewHolder.listHead.setText(NoteAPP.LISTADAPTER.get(position)
+                viewHolder.listHead.setText(noteDao.LISTADAPTER.get(position)
                         .get("createDate"));
             }
             return convertView;

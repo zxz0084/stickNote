@@ -5,12 +5,19 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class NoteDaoMpi {
+    public static int NOTECOUNT = 0;
+    public static List<String> HEAD = new ArrayList<String>();
+    public static List<Map<String,String>> LISTADAPTER = new ArrayList<Map<String,String>>();
+    public static Note NOTE = new Note();
+    private static final String TAG="NOTEDAO:";
     private DBHelper helper = null;
     public NoteDaoMpi(Context context){
         helper = new DBHelper(context);
@@ -129,13 +136,13 @@ public class NoteDaoMpi {
         try{
             db = helper.getWritableDatabase();
             Cursor cursor = db.query("notes", new String[]{"id","title","createDate"}, null, null, null, null, "createDate");
-            NoteAPP.NOTECOUNT = cursor.getCount();
+            NOTECOUNT = cursor.getCount();
             int count = cursor.getColumnCount();
             Map<String,String> note = null;
             Map<String,String> noteHead = null;
             String [] times = null;
-            NoteAPP.HEAD.clear();
-            NoteAPP.LISTADAPTER.clear();
+            HEAD.clear();
+            LISTADAPTER.clear();
             while(cursor.moveToNext()){
                 note = new HashMap<String, String>();
                 for (int i = 0; i < count; i++) {
@@ -153,20 +160,22 @@ public class NoteDaoMpi {
                         note.put("createDate", times[times.length-1]);
                     }
                 }
-                if(NoteAPP.HEAD.size() == 0){
+                if(HEAD.size() == 0){
                     noteHead = new HashMap<String, String>();
                     noteHead.put("createDate", times[0]);
-                    NoteAPP.LISTADAPTER.add(noteHead);
+                    LISTADAPTER.add(noteHead);
                     //设置Adapter中放置数据
-                    NoteAPP.HEAD.add(times[0]);
-                }else if(!NoteAPP.HEAD.get(NoteAPP.HEAD.size()-1).equals(times[0])){
+                    HEAD.add(times[0]);
+                }else if(!HEAD.get(HEAD.size()-1).equals(times[0])){
                     noteHead = new HashMap<String, String>();
                     noteHead.put("createDate", times[0]);
-                    NoteAPP.LISTADAPTER.add(noteHead);
-                    NoteAPP.HEAD.add(times[0]);
+                    LISTADAPTER.add(noteHead);
+                    HEAD.add(times[0]);
                 }
-                NoteAPP.LISTADAPTER.add(note);
-                NoteAPP.HEAD.add(times[0]);
+                LISTADAPTER.add(note);
+                HEAD.add(times[0]);
+                Log.i(TAG,""+note+times);
+
             }
         }catch(Exception e){
             e.printStackTrace();
@@ -175,6 +184,6 @@ public class NoteDaoMpi {
                 db.close();
             }
         }
-        return NoteAPP.LISTADAPTER;
+        return LISTADAPTER;
     }
 }
