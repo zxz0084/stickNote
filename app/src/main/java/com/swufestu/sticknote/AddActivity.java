@@ -20,7 +20,6 @@ public class AddActivity extends MainActivity{
     private FloatingActionButton backButton = null;
     private EditText noteText = null;
     private EditText titleText = null;
-    public static Activity addActivity = null;
     private static final  String TAG="ADD:";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +42,7 @@ public class AddActivity extends MainActivity{
                 noteDao.NOTE.setNote("");
                 noteDao.NOTE.setTitle("");
                 startActivity(intent);
-                AddActivity.addActivity.finish();
+                AddActivity.this.finish();
                 view.setBackgroundResource(R.color.bg);
                 }
                 return false;
@@ -80,7 +79,7 @@ public class AddActivity extends MainActivity{
                 showCount.append("条笔记");
                 Toast.makeText(AddActivity.this,showCount,Toast.LENGTH_SHORT).show();
                 startActivity(intent);
-                AddActivity.addActivity.finish();
+                AddActivity.this.finish();
                     view.setBackgroundResource(R.color.bg);
                 }
                 return false;
@@ -88,7 +87,6 @@ public class AddActivity extends MainActivity{
         });
         noteText = findViewById(R.id.noteEdit);
         titleText = findViewById(R.id.titleEdit);
-        addActivity = this;
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

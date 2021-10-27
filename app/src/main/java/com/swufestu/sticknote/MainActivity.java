@@ -1,9 +1,11 @@
 package com.swufestu.sticknote;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +16,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -24,6 +27,10 @@ import android.widget.TextView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.swufestu.sticknote.db.Note;
 import com.swufestu.sticknote.db.NoteDaoMpi;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener{
     //删除按钮、添加按钮、删除成功按钮、返回按钮
@@ -37,8 +44,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private FloatingActionButton back = null;
     //private CardView listView=null;
     private ListView listView = null;
-    public static Activity queryActivity = null;
     private NormalAdapter adapter = null;
+//    private Myadapter adapter1 = null;
     private DeleteAdapter deleteAdapter = null;
 
 
@@ -53,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         //byId.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
         listView=findViewById(R.id.listView);
         listView.setOnItemClickListener(this);//OnItemClick
+        listView.setOnItemLongClickListener(this);
         back=findViewById(R.id.backButton);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,7 +142,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private void searchDelete() {
         deleteAdapter = new DeleteAdapter();
+        //adapter1=new Myadapter(MainActivity.this,R.layout.deletelistview);
         listView.setAdapter(deleteAdapter);
+        //listView.setAdapter(adapter1);
     }
 
     private void backDeleCheck() {
@@ -159,6 +169,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             startActivity(intent);
         }else if(frame.getChildCount() == 4){
             deleteAdapter.toggle(position);
+            //adapter1.toggle(position);
         }
     }
 
@@ -200,7 +211,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         TextView listHead = null;
         CheckBox checkNote = null;
     }
-
     class DeleteAdapter extends BaseAdapter {
         LayoutInflater inflater;
         boolean[] itemStatus = new boolean[noteDao.LISTADAPTER.size()];
@@ -243,7 +253,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             ListHolder viewHolder = null;
             // 分组显示
             if (inflater == null) {
-                inflater = (LayoutInflater) queryActivity
+                inflater = (LayoutInflater) MainActivity.this
                         .getSystemService(LAYOUT_INFLATER_SERVICE);
             }
             viewHolder = new ListHolder();
@@ -298,6 +308,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         }
     }
+
+
+
     class NormalAdapter extends BaseAdapter {
         LayoutInflater inflater;
 
