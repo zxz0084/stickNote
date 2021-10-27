@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 back.setVisibility(View.GONE);
                 delete.setVisibility(View.VISIBLE);
                 add.setVisibility(View.VISIBLE);
-                searchNormal();
+                searchAll();
             }
         });
         add = findViewById(R.id.addButton);
@@ -97,20 +97,18 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     Log.i(TAG, "" + 2);
                     intent = new Intent(MainActivity.this, AddActivity.class);
                     NoteAPP.NOTE = new Note();
-                    MainActivity.queryActivity.finish();
+                    MainActivity.this.finish();
                     startActivity(intent);
-                    view.setBackgroundResource(R.color.bg);
-                }else if(motionEvent.getAction() == MotionEvent.ACTION_UP){
                     view.setBackgroundResource(R.color.bg);
                 }
                 return false;
             }
         });
-        queryActivity = this;
+
     }
 
 
-    private void searchNormal() {
+    private void searchAll() {
         noteDao.queryAll();
         adapter = new NormalAdapter();
         listView.setAdapter(adapter);
@@ -123,6 +121,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         delete.setVisibility(View.GONE);
         add.setVisibility(View.GONE);
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -132,8 +131,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     protected void onResume() {
         super.onResume();
-        searchNormal();
+        searchAll();
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -146,6 +146,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         toDeleteCheck();
         return false;
     }
+
     private void searchDelete() {
         deleteAdapter = new DeleteAdapter();
         listView.setAdapter(deleteAdapter);
@@ -157,7 +158,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         //添加和删除按钮显示
         delete.setVisibility(View.VISIBLE);
         add.setVisibility(View.VISIBLE);
-        searchNormal();
+        searchAll();
     }
 
     @Override
@@ -165,6 +166,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                             long id) {
         LinearLayout frame = (LinearLayout)view;
         String noteID = ((TextView)frame.getChildAt(0)).getText().toString();
+        Log.i(TAG,""+frame.getChildCount());
         if(frame.getChildCount() == 3){
             NoteAPP.NOTE = noteDao.query("id=?", new String[]{noteID});
             Intent intent = new Intent(this,AddActivity.class);
@@ -174,6 +176,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             deleteAdapter.toggle(position);
         }
     }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
@@ -182,6 +185,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
         return true;
     }
+
     protected void dialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("确定要退出吗?");
